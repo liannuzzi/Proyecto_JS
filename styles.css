@@ -1,0 +1,94 @@
+body{
+    margin: 0;
+}
+
+/* NAVEGADOR */
+
+.navegador{
+    background-color: #0A3A64;
+}
+
+.navegador .items {
+    color:whitesmoke;
+    font-weight: bold;
+  }
+
+  .navegador .navbar-brand {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: whitesmoke;
+    font-size: 25px;
+  }
+  
+/* MAIN */
+
+  .container-main {
+    height: 100vh;
+    min-height: 500px;
+    background-image: url("images/obi-onyeador-XT95JA80yzM-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* FORM */
+
+fieldset {
+    border: solid 2px black;
+    background-color:whitesmoke;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    }
+    
+legend {
+font-weight: bold;
+text-align: center;
+}
+
+.label-container {
+text-align: left;
+}
+
+.form-label {
+font-weight: bold;
+margin-left: 10px;
+}
+
+.form-control{
+border: 1px solid black;
+}
+
+.container-botones {
+display: flex;
+justify-content: center;
+gap: 40px;
+margin-top: 70px;
+}
+
+.container-botones .boton {
+background-color: #0A3A64;
+border: black;
+font-weight: bold;
+}
+
+.container-botones .boton:hover {
+color: whitesmoke;
+background-color: #2A5376;
+}
+
+/* FOOTER */
+footer {
+    background-color: #303030;
+    color: white;
+    padding: 10px;
+  }
+  
+footer .footer-flex {
+display: flex;
+justify-content: center;
+}
+  
+footer h4{
+      font-size: 20px;
+    }
+
