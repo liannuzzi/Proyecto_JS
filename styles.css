@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    font-family: 'Mulish', sans-serif;
 }
 
 /* NAVEGADOR */
@@ -23,7 +24,7 @@ body{
 /* MAIN */
 
   .container-main {
-    height: 100vh;
+    height: 130vh;
     min-height: 500px;
     background-image: url("images/obi-onyeador-XT95JA80yzM-unsplash.jpg");
     background-size: cover;
@@ -31,7 +32,34 @@ body{
     background-repeat: no-repeat;
   }
 
-  /* FORM */
+
+/* FORMULARIO BIENVENIDA */
+#form-bienvenida{
+  margin-top: 100px;
+
+}
+
+#containerBievenida{
+  margin-bottom: 30px;
+  padding-left:30px;
+  padding-right: 30px;
+}
+
+#containerBtnConfirmar{
+  margin-top: 0px;
+}
+
+#form-bienvenida label{
+  font-weight: bold;
+
+}
+
+#form-bienvenida input{
+  margin-bottom: 50px;
+
+}
+
+/* FORMULARIO CARGA DE DATOS */
 
 fieldset {
     border: solid 2px black;
@@ -56,6 +84,13 @@ margin-left: 10px;
 
 .form-control{
 border: 1px solid black;
+border-radius: 0%;
+}
+
+.warning{
+  color: red;
+  font-weight: bold;
+  font-size: small;
 }
 
 .container-botones {
@@ -69,11 +104,70 @@ margin-top: 70px;
 background-color: #0A3A64;
 border: black;
 font-weight: bold;
+border-radius: 0%;
 }
 
 .container-botones .boton:hover {
 color: whitesmoke;
 background-color: #2A5376;
+}
+
+.textoOpcion{
+  background-color: whitesmoke;
+  margin-top: 50px;
+  border: solid 2px black;
+}
+
+
+/* CATALOGO */
+
+/* FORM */
+
+
+/* GRILLA */
+
+#containerHome{
+  margin-top: 30px;
+}
+
+
+.car-option{
+  display: flex;
+  flex-direction: row;
+  background-color: whitesmoke;
+  margin-top: 20px;
+  border:solid 1px;
+  border-color: grey;
+}
+
+.imagen-producto{
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-name{
+font-size: 25px;
+font-weight: bold;
+}
+
+.imagen-producto img{
+  width: 219px;
+  height: 164px;
+}
+
+.car-price{
+  font-size: large;
+}
+
+.reservarAuto{
+  background-color: #0A3A64;
+  color: white;
+  font-weight: bold;
+  border-radius: 0%;
+  height:50px ;
+  width:150px ;
+  border: 0px;
 }
 
 /* FOOTER */
@@ -91,4 +185,5 @@ justify-content: center;
 footer h4{
       font-size: 20px;
     }
+
 

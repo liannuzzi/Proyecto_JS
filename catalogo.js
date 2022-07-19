@@ -1,16 +1,15 @@
-// Declaración Variables
-
-let tipoCarroceria='';
-let descripcionCarroceria='';
-let cantidadDias=0;
+const resultadosBusqueda=JSON.parse(localStorage.getItem('resultadosBusqueda'));
+let cantidadPasajeros=localStorage.getItem('pasajeros');
+let tipoCarroceria=localStorage.getItem('tipoCarroceria');
+let fechaRetiro=localStorage.getItem('fechaRetiro');
+let fechaDevolucion=localStorage.getItem('fechaDevolucion');
+let totalDias=localStorage.getItem('cantidadDias');
 let precioTotal=0;
-let chequeoPasajeros=0;
-let chequeoCarroceria=0;
-let chequeoFechaRet=0;
-let chequeoFechaDev=0
+let chequeoPasajeros=1;
+let chequeoCarroceria=1;
+let chequeoFechaRet=1;
+let chequeoFechaDev=1;
 let CatalogoAutos='';
-const nombreUsuarioStorage = localStorage.getItem('nombreUsuario');
-
 
 // Arrays
 const tiposCarroceria=[];
@@ -26,15 +25,89 @@ class Carrocerias{
 }
 
 tiposCarroceria.push(
-    {id:1,tipo:'Hatchback'},
-    {id:2,tipo:'Sedan'},
-    {id:3,tipo:'Van'},
-    {id:4,tipo:'Pick-Up'}
+    {id:1,tipo:'Hatchback',imagen:'images\carrocerias\hatchback.png'},
+    {id:2,tipo:'Sedan',imagen:'images\carrocerias\sedan.png'},
+    {id:3,tipo:'Van',imagen:'images\carrocerias\van.png'},
+    {id:4,tipo:'Pick-Up',imagen:'images\carrocerias\pickup.png'}
 );
+
+// Recorre arrays de tipo de carrocería para completar el desplegable
+tiposCarroceria.forEach(element => {
+    let carroceria=document.createElement('option');
+    carroceria.innerHTML=element.tipo;
+    document.getElementById('tipoCarroceria').insertAdjacentElement('beforeend',carroceria);  
+});
+
+// Completa form con los valores ingresados anteriormente
+
+document.getElementById('cantidadPasajeros').setAttribute('value',cantidadPasajeros);
+document.getElementById('fechaRetiro').setAttribute('value',fechaRetiro)
+document.getElementById('fechaDevolucion').setAttribute('value',fechaDevolucion)
+
+let select=document.getElementById('tipoCarroceria')
+let option;
+
+for (var i=0; i<select.options.length; i++) {
+    option = select.options[i];
+  
+    if (option.value == tipoCarroceria) {
+       option.setAttribute('selected', true); 
+    } 
+  }
+
+
+// Chequea si el array viene vacío para indicar que no existen resultados para los parametros ingresados, sino avanza al calculo del precio.
+
+if (resultadosBusqueda.length==0){
+    Swal.fire({
+        title: '<strong>Oopss...</strong>',
+        icon: 'error',
+        html:
+        `Disculpe, no disponemos de vehículos para ${cantidadPasajeros} pasajeros con carrocería ${tipoCarroceria} `,
+        showCloseButton: true
+      }).then((result)=>{
+        if(result.isConfirmed){
+          location.href='index.html';  
+        }
+    })
+}else{
+    // Muestra en pantalla el modelo sugerido, los días de alquiler y el precio. 
+    const listado=document.getElementById('listado');
+    while(listado.lastChild.nodeName=='li'){
+        listado.removeChild(listado.lastChild);
+    }
+
+    for(const resultado of resultadosBusqueda){
+
+    preciosSegmento(resultado,totalDias);
+
+    let elemento=document.createElement('li');
+    elemento.className='car-option';
+    elemento.innerHTML=`
+    <div class="col-md-4">
+    <div class="imagen-producto">
+        <img src="images/autos/${resultado.imagen}" alt="">
+    </div>
+    </div>
+    <div class="col-md-4 car-info">
+    <p class="car-name">${resultado.marca} ${resultado.modelo}</p>
+    <p><strong>Capacidad:</strong> ${resultado.capacidad} personas</p>
+    <p><strong>Carrocería:</strong> ${resultado.carroceria}
+    <img src="images/carrocerias/${resultado.carroceria}.png" alt="">
+    </p>
+    </div>
+    <div class='containerReserva col-md-4'>
+        <p>Alquiler por <strong>${totalDias} días</strong></p>
+        <p class="car-price">Total <strong>$${precioTotal}</strong></p>
+        <button class='reservarAuto'>Quiero Reservar!</button>
+    </div>`;
+    listado.appendChild(elemento);
+    }
+    reservar();
+}
 
 // Fetch sobre el json con catalogo de autos
 // Recorre capacidades de los autos y devuelve el valor maximo en cuanto a pasajeros.
-
 function fetchCatalogo(){
     fetch('catalogoAutos.json')
     .then(respuesta=>respuesta.json())
@@ -48,48 +121,8 @@ function fetchCatalogo(){
 fetchCatalogo();
 
 
-document.getElementById('formBienvenida').style.display='none';
-const btnConfirmar=document.getElementById('btnConfirmar');
-btnConfirmar.style.display="none"
-const formCarga=document.getElementById('formCarga');
-formCarga.style.display='none';
 
-// verifica si ya se ingresó previamente un nombre
-informacionNombre();
-
-// Ingresa nombre del usuario, oculta primer form y habilita form de carga. Customiza el legend segun nombre ingresado.
-
-let inputNombre=document.getElementById('inputNombre');
-btnConfirmar.disabled=true;
-inputNombre.oninput = ()=>{
-    inputNombre.value === ""? btnConfirmar.disabled=true:btnConfirmar.disabled=false;
-}
-
-// Evento on click sobre botón confirmar del form de bievenida
-btnConfirmar.onclick = (e) =>{
-    e.preventDefault();
-    let inputNombre=document.getElementById('inputNombre');
-    localStorage.setItem('nombreUsuario',inputNombre.value);
-    btnConfirmar.style.display="none"
-    document.getElementById('formBienvenida').style.display='none';
-    let formCarga= document.getElementById('formCarga');
-    formCarga.style.display='block';
-
-    let legendBienvenida=document.createElement('legend');
-    legendBienvenida.innerHTML=`Hola ${inputNombre.value}, alquilá tu auto al mejor precio!`;
-    document.getElementById('fieldsetFormCarga').insertAdjacentElement('afterbegin',legendBienvenida);    
-}
-
-// Recorre arrays de tipo de carrocería para completar el desplegable
-tiposCarroceria.forEach(element => {
-    let carroceria=document.createElement('option');
-    carroceria.innerHTML=element.tipo;
-    document.getElementById('tipoCarroceria').insertAdjacentElement('beforeend',carroceria);  
-});
-
-// Inhabilita boton de busqueda hasta que las validaciones esten OK
-const btnBuscar=document.getElementById('btnBuscar');
-btnBuscar.disabled=true;
+const btnBuscar=document.getElementById('btnBuscarCatalogo');
 
 // Validación input cantidad de pasajeros. Lanza mensaje debajo del input en caso que haya datos que modificar.
 
@@ -208,8 +241,8 @@ inputfechaDevolucion.oninput = () =>{
 
 }
 
-// Evento on click sobre botón Buscar vehiculo
 
+// Evento on click sobre botón Buscar vehiculo
 btnBuscar.onclick = (e) =>{
     e.preventDefault();
 
@@ -232,36 +265,23 @@ btnBuscar.onclick = (e) =>{
     localStorage.setItem('fechaRetiro',inputFechaRetiro.value);
     localStorage.setItem('fechaDevolucion',inputfechaDevolucion.value);
     localStorage.setItem('cantidadDias',cantidadDias);
-  
 
-// En base a cantidad de pasajeros y tipo carrocería devuelve mejor opcion
-const mejorOpcion=(CatalogoAutos.filter(elemento=>elemento.capacidad>=cantidadPasajeros && elemento.carroceria==tipoCarroceria));
-localStorage.setItem('resultadosBusqueda',JSON.stringify(mejorOpcion));
-
-
-    // Redirreción a pagina Catalogo
-    location.href='catalogo.html';  
+    // En base a cantidad de pasajeros y tipo carrocería devuelve mejor opcion
+    const mejorOpcion=(CatalogoAutos.filter(elemento=>elemento.capacidad>=cantidadPasajeros && elemento.carroceria==tipoCarroceria));
+    armarCatalogo(mejorOpcion);
+    
 }
 
 
+// FUNCIONES
 
-//                          FUNCIONES
+// Calcula el precio correspondiente al alquiler segun tipo de segmento y días de alquiler
 
-
-// En caso que se haya ingresado un nombre previamente, muestra directametne el form de carga. De otro modo, muestra el form de bienvenida
-function informacionNombre(){
-    if (nombreUsuarioStorage && nombreUsuarioStorage !== 'null'){
-        let formCarga= document.getElementById('formCarga');
-        formCarga.style.display='block';
-        let legendBienvenida=document.createElement('legend');
-        legendBienvenida.innerHTML=`Hola ${nombreUsuarioStorage}, alquilá tu auto al mejor precio`;
-        document.getElementById('fieldsetFormCarga').insertAdjacentElement('afterbegin',legendBienvenida);
-    }else{
-        document.getElementById('formBienvenida').style.display='block';
-        btnConfirmar.style.display="block";
-    }
-
+function preciosSegmento(opcion,diasAlquiler){
+    precioTotal = (opcion.precioMercado*0.002)*diasAlquiler ;
 }
+
+
 
 // Controla los campos del formulario para saber que esten OK y habilitar botón de buscar
 function controlCampos (){
@@ -271,3 +291,94 @@ function controlCampos (){
         btnBuscar.disabled=true;
     }
 }
+
+
+function armarCatalogo(resultados){
+    if (resultados.length==0){
+        Swal.fire({
+            title: '<strong>Oopss...</strong>',
+            icon: 'error',
+            html:
+            `Disculpe, no disponemos de vehículos para ${inputPasajeros.value} pasajeros con carrocería ${tipoCarroceria} `,
+            showCloseButton: true
+          }).then((result)=>{
+            if(result.isConfirmed){
+              location.href='index.html';  
+            }
+        })
+    }else{
+        
+        const listado=document.getElementById('listado');
+
+        // elimina resultados en caso que haya
+        while(listado.lastChild.nodeName=='LI'){
+            listado.removeChild(listado.lastChild);
+        }
+        // Muestra en pantalla el modelo sugerido, los días de alquiler y el precio.
+        for(const resultado of resultados){
+    
+        preciosSegmento(resultado,totalDias);
+    
+        let elemento=document.createElement('li');
+        elemento.className='car-option';
+        elemento.innerHTML=`
+        <div class="col-md-4">
+        <div class="imagen-producto">
+            <img src="images/autos/${resultado.imagen}" alt="">
+        </div>
+        </div>
+        <div class="col-md-4 car-info">
+        <p class="car-name">${resultado.marca} ${resultado.modelo}</p>
+        <p><strong>Capacidad:</strong> ${resultado.capacidad} personas</p>
+        <p><strong>Carrocería:</strong> ${resultado.carroceria}
+        <img src="images/carrocerias/${resultado.carroceria}.png" alt="">
+        </p>
+        </div>
+        <div class='containerReserva col-md-4'>
+            <p>Alquiler por <strong>${totalDias} días</strong></p>
+            <p class="car-price">Total <strong>$${precioTotal}</strong></p>
+            <button class='reservarAuto'>Quiero Reservar!</button>
+        </div>`;
+        listado.appendChild(elemento);
+        }
+        reservar();
+    }
+    
+    }
+
+function reservar(){
+    const btnReserva=document.getElementsByClassName('reservarAuto');
+    for (var i = 0; i < btnReserva.length; i++) {
+        btnReserva[i].addEventListener("click", function (e) {
+        e.preventDefault();
+        ingresarMail(true);
+    });
+    }
+}
+
+    // Alerta solicitando el mail al usuario.
+
+async function ingresarMail(result){
+    if(result===true){
+        const { value: email } = await Swal.fire({
+            icon:'success',
+            title: 'Reserva confirmada!',
+            input: 'email',
+            inputLabel: 'Le enviaremos la información de la reserva y los datos para avanzar con el pago.',
+            inputPlaceholder: 'Ingrese su correo electrónico'
+        })
+        
+        if (email) {
+            Swal.fire({
+                html:`Muchas gracias por su reserva! Enviamos el correo a la casilla: ${email}`
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    location.href='index.html';  
+                }
+            })
+            
+        }
+        
+    }
+    
+} 

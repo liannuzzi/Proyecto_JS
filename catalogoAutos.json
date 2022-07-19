@@ -1,0 +1,136 @@
+[
+
+	{
+	"id":1,
+	"marca":"Volkswagen",
+	"modelo":"Up!",
+	"puertas":5,
+	"capacidad":5,
+	"carroceria":"Hatchback",
+	"precioMercado":1600000,
+	"segmento":"A",
+	"imagen":"volkswagen up.jpg"
+	},
+	{
+	"id":2,
+	"marca":"Toyota",
+	"modelo":"Etios",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Hatchback",
+	"precioMercado":1900000,
+	"segmento":"A",
+	"imagen":"toyota_etios.jpg"
+	},
+	{
+	"id":3,
+	"marca":"Chevrolet",
+	"modelo":"Spin",
+	"puertas":5,
+	"capacidad":7,
+	"carroceria":"Van",
+	"precioMercado":2400000,
+	"segmento":"C",
+	"imagen":"chevrolet spin.jpg"
+	},
+	{
+	"id":4,
+	"marca":"Toyota",
+	"modelo":"Hilux",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Pick-Up",
+	"precioMercado":6500000,
+	"segmento":"D",
+	"imagen":"toyota hilux.jpg"
+	},
+	{
+	"id":5,
+	"marca":"Chevrolet",
+	"modelo":"Cruze",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Sedan",
+	"precioMercado":3500000,
+	"segmento":"B",
+	"imagen":"chevrolet cruze.jpg"
+	},
+	{
+	"id":6,
+	"marca":"Peugeot",
+	"modelo":"208",
+	"puertas":5,
+	"capacidad":5,
+	"carroceria":"Hatchback",
+	"precioMercado":3150000,
+	"segmento":"A",
+	"imagen":"peugeot 208.jpg"
+	},
+	{
+	"id":7,
+	"marca":"Renault",
+	"modelo":"Kwid",
+	"puertas":5,
+	"capacidad":5,
+	"carroceria":"Hatchback",
+	"precioMercado":1500000,
+	"segmento":"A",
+	"imagen":"renault kwid.jpg"
+	},
+	{
+	"id":8,
+	"marca":"Kia",
+	"modelo":"Carnival",
+	"puertas":5,
+	"capacidad":8,
+	"carroceria":"Van",
+	"precioMercado":4550000,
+	"segmento":"C",
+	"imagen":"kia carnival.jpg"
+	},
+	{
+	"id":9,
+	"marca":"Volkswagen",
+	"modelo":"Amarok",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Pick-Up",
+	"precioMercado":5900000,
+	"segmento":"D",
+	"imagen":"volkswagen amarok.jpg"
+	},
+	{
+	"id":10,
+	"marca":"Toyota",
+	"modelo":"Corolla",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Sedan",
+	"precioMercado":4600000,
+	"segmento":"B",
+	"imagen":"toyota corolla.jpg"
+	},
+	{
+	"id":11,
+	"marca":"Hyundai",
+	"modelo":"H-1",
+	"puertas":5,
+	"capacidad":8,
+	"carroceria":"Van",
+	"precioMercado":6880000,
+	"segmento":"C",
+	"imagen":"hyundai h1.jpg"
+	},
+	{
+	"id":12,
+	"marca":"Renault",
+	"modelo":"Alaskan",
+	"puertas":4,
+	"capacidad":5,
+	"carroceria":"Pick-Up",
+	"precioMercado":6250000,
+	"segmento":"D",
+	"imagen":"renault alaskan.jpg"
+	}
+
+]
